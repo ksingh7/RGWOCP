@@ -24,6 +24,7 @@ $ oc login -u "system:admin"
 ```
 $ git clone https://github.com/jharriga/RGWOCP
 $ cd RGWOCP
+$ chmod 755 *.sh
 $ ./launchCB.sh 2
 Continuing...
 Open WebBrowser  http://127.0.0.1:8080/controller/index.html
