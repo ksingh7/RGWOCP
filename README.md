@@ -6,7 +6,8 @@ Scripts to automate running COSbench and Ceph RGW on OCP 4.1
   * launchRGW.sh
 
 PRE-REQS:
-  * local install: helm/tiller; openshift client; 
+  * local install of helm/tiller and openshift client
+  * access to Openshift cluster
 
 ## PROCEDURE
 
@@ -27,7 +28,7 @@ $ ./launchCB.sh 2
 Continuing...
 Open WebBrowser  http://127.0.0.1:8080/controller/index.html
 
-$ ./ccbrook.sh
+$ ./launchRGW.sh
 AccessKey = W0D1KKQ0RAZKA11V73ZJ : SecretKey = qydp2aWjlLQBmkh7XXioe7ne3MA6NPlvRo9Ihw1F
 rook-ceph-rgw service listening at = 172.30.92.76:8080
 ```
