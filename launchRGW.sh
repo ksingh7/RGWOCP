@@ -68,8 +68,8 @@ sleep $pause
 #watch "oc get deployments -n rook-ceph"  
 #oc rollout status deployment rook-ceph-rgw-my-store -n rook-ceph
 #echo "oc rollout status deployment cmd completed"
-echo "You should now monitor the rook-ceph deployments..."
-echo "      oc get deployments -n rook-ceph"
+echo "You should now (in another window) monitor the rook-ceph deployments..."
+echo "     $ watch 'oc get deployments -n rook-ceph' "
 echo "When rook-ceph-rgw-my-store is READY, continue"
 prompt_confirm "Is rook-ceph-rgw-my-store deployment READY?" || error_exit "User aborted" $LINENO
 
@@ -109,14 +109,17 @@ echo                                # add newline
 echo "Login to toolbox with:"
 echo "   $ oc exec -it -n rook-ceph $PODID bash"
 echo
-echo "$PROGNAME done."
+echo "$PROGNAME done. S3 credentials (AccessKey, SecretKey) and rgw (IP:PORT)"
+echo ">> AccessKey = $AK : SecretKey = $SK"
+echo ">> rook-ceph-rgw service listening at = $RGWE"
 echo
 
 #-----------
 # Cleanup - this is UGLY
 # https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md
 echo "When you are ready to TEARDOWN:"
-echo "See this (messy)  https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md"
+echo "See this (messy)"
+echo"   https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md"
 echo "OR destroy and restart your openshift environment" 
 echo "Also, remove local copy of rook..."
 echo "  rm -rf ${TMPPATH}/rook-${VERSION}"
