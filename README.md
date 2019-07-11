@@ -6,7 +6,7 @@ Scripts to automate running COSbench and Ceph RGW on OCP 4.1
   * launchRGW.sh
 
 PRE-REQS:
-  * local install of helm/tiller and openshift client
+  * local install of helm/tiller and openshift command line tool (oc)
   * access to Openshift cluster
 
 ## PROCEDURE
