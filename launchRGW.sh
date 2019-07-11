@@ -86,7 +86,6 @@ RGWE="${IP}:${PT}"
 echo "rook-ceph-rgw service listening at = $RGWE"
 
 prompt_confirm "Were AccessKey, SecretKey, rgw endpoint displayed?" || error_exit "User aborted" $LINENO
-echo "Record the S3 credentials (AccessKey, SecretKey) and rgw (IP:PORT)"
 
 #-----------
 echo "Creating toolbox"
@@ -109,7 +108,8 @@ echo                                # add newline
 echo "Login to toolbox with:"
 echo "   $ oc exec -it -n rook-ceph $PODID bash"
 echo
-echo "$PROGNAME done. S3 credentials (AccessKey, SecretKey) and rgw (IP:PORT)"
+echo "$PROGNAME done."
+echo "Record S3 credentials (AccessKey, SecretKey) and rgw (IP:PORT)"
 echo ">> AccessKey = $AK : SecretKey = $SK"
 echo ">> rook-ceph-rgw service listening at = $RGWE"
 echo
@@ -118,8 +118,6 @@ echo
 # Cleanup - this is UGLY
 # https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md
 echo "When you are ready to TEARDOWN:"
-echo "See this (messy)"
-echo"   https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md"
-echo "OR destroy and restart your openshift environment" 
-echo "Also, remove local copy of rook..."
+echo "  destroy and restart your openshift environment" 
+echo "Also, remove the local copy of rook..."
 echo "  rm -rf ${TMPPATH}/rook-${VERSION}"
