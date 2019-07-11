@@ -115,11 +115,7 @@ echo
 # Cleanup - this is UGLY
 # https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md
 echo "When you are ready to TEARDOWN:"
-echo "   oc delete -f ${BASEPATH}/toolbox.yaml" 
-echo "   oc delete -f ${BASEPATH}/object-user.yaml"
-echo "   oc delete -f ${BASEPATH}/object-openshift.yaml" 
-echo "   oc -n rook-ceph delete cephcluster rook-ceph"
-echo "   oc delete -f ${BASEPATH}/cluster-test.yaml" 
-echo "   oc delete -f ${BASEPATH}/operator-openshift.yaml" 
-echo "   oc delete -f ${BASEPATH}/common.yaml" 
-echo "   rm -rf ${TMPPATH}/rook-${VERSION}"
+echo "See this (messy)  https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md"
+echo "OR destroy and restart your openshift environment" 
+echo "Also, remove local copy of rook..."
+echo "  rm -rf ${TMPPATH}/rook-${VERSION}"
