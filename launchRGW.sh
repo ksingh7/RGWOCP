@@ -66,11 +66,12 @@ sleep $pause
 #   5) rook-ceph-rgw-my-store
 #
 #watch "oc get deployments -n rook-ceph"  
-#
-oc rollout status deployment rook-ceph-rgw-my-store -n rook-ceph
-echo "oc rollout status deployment cmd completed"
-oc get deployments -n rook-ceph
-prompt_confirm "Are rook-ceph deployments READY?" || error_exit "User aborted" $LINENO
+#oc rollout status deployment rook-ceph-rgw-my-store -n rook-ceph
+#echo "oc rollout status deployment cmd completed"
+echo "You should now monitor the rook-ceph deployments..."
+echo "      oc get deployments -n rook-ceph"
+echo "When rook-ceph-rgw-my-store is READY, continue"
+prompt_confirm "Is rook-ceph-rgw-my-store deployment READY?" || error_exit "User aborted" $LINENO
 
 #-----------
 echo "Creating S3 user"
