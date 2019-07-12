@@ -60,21 +60,29 @@ for dep in $DEPLIST; do
 done
 
 #+++++++++++++++++++++++++++++
-# TILLER CONFIGURATION
+# Check for clean environment: no ccb project and no tiller service
+# Check for ccb project
+oc get project ccb > /dev/null
+if [ $? -eq 0 ]; then
+    echo "Project ccb exists, please start with a clean environment"
+    error_exit "FAIL project ccb found" $LINENO
+fi
 # Check if tiller service is already running (unclean cluster)
 oc get pods -n kube-system | grep tiller > /dev/null
 if [ $? -eq 0 ]; then
     echo "tiller service found running, please start with a clean environment"
     error_exit "FAIL tiller found running" $LINENO
-else
-# CONFIGURE Helm/Tiller (project kube-system)
-    echo "Configuring and starting tiller..."
-    oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount" $LINENO
-    oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding" $LINENO
-    helm init --service-account tiller || error_exit "FAIL helm init" $LINENO
-    echo "sleeping ${pause}s for previous cmd to complete..."
-    sleep $pause
 fi
+
+#+++++++++++++++++++++++++++++
+# TILLER CONFIGURATION
+# CONFIGURE Helm/Tiller (project kube-system)
+echo "Configuring and starting tiller..."
+oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount" $LINENO
+oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding" $LINENO
+helm init --service-account tiller || error_exit "FAIL helm init" $LINENO
+echo "sleeping ${pause}s for previous cmd to complete..."
+sleep $pause
 # verify tiller-deploy is READY
 oc get pods -n kube-system 2>/dev/null || echo "FAIL oc get pods" 
 # WAIT for user to continue
@@ -90,7 +98,7 @@ oc new-project ccb || error_exit "FAIL new-project" $LINENO
 helm install stable/cosbench --name ccbhelm --set driver.replicaCount=$numdrvrs 2>/dev/null || error_exit "FAIL helm install" $LINENO 
 echo "sleeping ${pause}s for previous cmd to complete..."
 sleep $pause
-oc get pods                   # see one cntrlr and three drivers
+oc get pods                   # see one cntrlr and $numdrvrs drivers
 # WAIT for user to continue
 echo "Pods cosbench-controller and driver(s) should be READY, else exit"
 prompt_confirm "Are they READY?" || error_exit "User aborted script"
@@ -99,9 +107,9 @@ echo "Continuing..."
 #+++++++++++++++++++++++++++++
 # ACCESS COSbench Controller GUI
 export POD_NAME=$(kubectl get pods --namespace ccb -l "app=cosbench,component=controller,release=ccbhelm" -o jsonpath="{.items[0].metadata.name}")
-oc port-forward $POD_NAME 8080:19088  > /dev/null 2>&1 &  # run in backgrd
+oc port-forward $POD_NAME 8080:19088 > /dev/null 2>&1 &  # run in backgrd
 
-echo "Open WebBrowser  http://127.0.0.1:8080/controller/index.html"    
+echo "Issued port-forward command, open WebBrowser  http://127.0.0.1:8080/controller/index.html"    
 #  Driver 1: http://ccbhelm-cosbench-driver-0.ccbhelm-cosbench-driver:18088/driver
 #  Driver 2: http://ccbhelm-cosbench-driver-1.ccbhelm-cosbench-driver:18088/driver
 #  Driver 3: http://ccbhelm-cosbench-driver-2.ccbhelm-cosbench-driver:18088/driver
