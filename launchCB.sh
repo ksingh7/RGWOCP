@@ -106,7 +106,7 @@ echo "Continuing..."
 
 #+++++++++++++++++++++++++++++
 # ACCESS COSbench Controller GUI
-export POD_NAME=$(kubectl get pods --namespace ccb -l "app=cosbench,component=controller,release=ccbhelm" -o jsonpath="{.items[0].metadata.name}")
+export POD_NAME=$(oc get pods --namespace ccb -l "app=cosbench,component=controller,release=ccbhelm" -o jsonpath="{.items[0].metadata.name}")
 oc port-forward $POD_NAME 8080:19088 > /dev/null 2>&1 &  # run in backgrd
 
 echo "Issued port-forward command, open WebBrowser  http://127.0.0.1:8080/controller/index.html"    
