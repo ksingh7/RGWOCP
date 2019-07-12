@@ -13,7 +13,9 @@ pause=60                 # time in sec to wait for pods to get READY
 
 function error_exit
 {
-    echo "${PROGNAME} line#${LINENO}: ${1:-"Unknown Error"}" 1>&2
+#        $1 is error string
+#        $2 is LINENO where error ocurred
+    echo "${PROGNAME} line#$2: ${1:-"Unknown Error"}" 1>&2
     exit 1
 }
 
@@ -59,9 +61,9 @@ done
 
 #+++++++++++++++++++++++++++++
 # CONFIGURE Helm/Tiller (project kube-system):
-oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount"
-oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding"
-helm init --service-account tiller || error_exit "FAIL helm init"
+oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount" $LINENO
+oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding" $LINENO
+helm init --service-account tiller || error_exit "FAIL helm init" $LINENO
 echo "sleeping ${pause}s for previous cmd to complete..."
 sleep $pause
 # verify tiller-deploy is READY
@@ -73,10 +75,10 @@ echo "Continuing..."
 
 #+++++++++++++++++++++++++++++
 # INSTALL COSbench Helm Chart (project ccb):
-oc adm policy add-scc-to-user anyuid system:serviceaccount:ccb:tiller 2>/dev/null || error_exit "FAIL adm policy tiller"
-oc adm policy add-scc-to-group anyuid system:authenticated 2>/dev/null || error_exit "FAIL system:authenticated"
-oc new-project ccb || error_exit "FAIL new-project"
-helm install stable/cosbench --name ccbhelm --set driver.replicaCount=$numdrvrs 2>/dev/null || error_exit "FAIL helm install" 
+oc adm policy add-scc-to-user anyuid system:serviceaccount:ccb:tiller 2>/dev/null || error_exit "FAIL adm policy tiller" $LINENO
+oc adm policy add-scc-to-group anyuid system:authenticated 2>/dev/null || error_exit "FAIL system:authenticated" $LINENO
+oc new-project ccb || error_exit "FAIL new-project" $LINENO
+helm install stable/cosbench --name ccbhelm --set driver.replicaCount=$numdrvrs 2>/dev/null || error_exit "FAIL helm install" $LINENO 
 echo "sleeping ${pause}s for previous cmd to complete..."
 sleep $pause
 oc get pods                   # see one cntrlr and three drivers
