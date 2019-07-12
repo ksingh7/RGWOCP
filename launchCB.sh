@@ -62,13 +62,13 @@ done
 #+++++++++++++++++++++++++++++
 # Check for clean environment: no ccb project and no tiller service
 # Check for ccb project
-oc get project ccb > /dev/null
+oc get project ccb > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo "Project ccb exists, please start with a clean environment"
     error_exit "FAIL project ccb found" $LINENO
 fi
 # Check if tiller service is already running (unclean cluster)
-oc get pods -n kube-system | grep tiller > /dev/null
+oc get pods -n kube-system | grep tiller > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo "tiller service found running, please start with a clean environment"
     error_exit "FAIL tiller found running" $LINENO
