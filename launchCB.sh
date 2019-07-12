@@ -61,11 +61,11 @@ done
 
 #+++++++++++++++++++++++++++++
 # TILLER CONFIGURATION
-# Check if tiller service is already running
-echo "Checking to see if tiller is already running"
+# Check if tiller service is already running (unclean cluster)
 oc get pods -n kube-system | grep tiller > /dev/null
 if [ $? -eq 0 ]; then
-    echo "tiller service is already running, skipping tiller configuration"
+    echo "tiller service found running, please start with a clean environment"
+    error_exit "FAIL tiller found running" $LINENO
 else
 # CONFIGURE Helm/Tiller (project kube-system)
     echo "Configuring and starting tiller..."
