@@ -18,7 +18,7 @@ $ openshift-install --dir mycluster create cluster
 INFO Install complete!                            
 INFO To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG=/home/user/OCP/mycluster/auth/kubeconfig'
 $ export KUBECONFIG=/home/user/OCP/mycluster/auth/kubeconfig
-$ oc login -u "system:admin"
+$ oc login -u system:admin
 ```
 **Install and Run Scripts**
 ```
