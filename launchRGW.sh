@@ -10,7 +10,7 @@ TMPPATH="/tmp"
 BASEPATH="${TMPPATH}/rook-${VERSION}/cluster/examples/kubernetes/ceph"
 
 PROGNAME=$(basename $0)
-pause=5         # time in sec to wait for pods to get READY
+pause=5         # time in sec to wait for various commands to complete
 
 function error_exit
 {
@@ -77,6 +77,7 @@ prompt_confirm "Is rook-ceph-rgw-my-store deployment READY?" || error_exit "User
 echo "Creating S3 user"
 oc create -f "${BASEPATH}/object-user.yaml"
 oc -n rook-ceph get secrets >/dev/null 2>&1
+sleep $pause
 AK=$(oc -n rook-ceph get secret rook-ceph-object-user-my-store-my-user -o yaml | grep AccessKey | awk '{print $2}' | base64 --decode)
 SK=$(oc -n rook-ceph get secret rook-ceph-object-user-my-store-my-user -o yaml | grep SecretKey | awk '{print $2}' | base64 --decode)
 echo "AccessKey = $AK : SecretKey = $SK"
