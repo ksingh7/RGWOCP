@@ -60,12 +60,21 @@ for dep in $DEPLIST; do
 done
 
 #+++++++++++++++++++++++++++++
-# CONFIGURE Helm/Tiller (project kube-system):
-oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount" $LINENO
-oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding" $LINENO
-helm init --service-account tiller || error_exit "FAIL helm init" $LINENO
-echo "sleeping ${pause}s for previous cmd to complete..."
-sleep $pause
+# TILLER CONFIGURATION
+# Check if tiller service is already running
+echo "Checking to see if tiller is already running"
+oc get pods -n kube-system | grep tiller > /dev/null
+if [ $? -eq 0 ]; then
+    echo "tiller service is already running, skipping tiller configuration"
+else
+# CONFIGURE Helm/Tiller (project kube-system)
+    echo "Configuring and starting tiller..."
+    oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount" $LINENO
+    oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding" $LINENO
+    helm init --service-account tiller || error_exit "FAIL helm init" $LINENO
+    echo "sleeping ${pause}s for previous cmd to complete..."
+    sleep $pause
+fi
 # verify tiller-deploy is READY
 oc get pods -n kube-system 2>/dev/null || echo "FAIL oc get pods" 
 # WAIT for user to continue
