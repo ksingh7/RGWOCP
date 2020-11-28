@@ -1,4 +1,4 @@
-# RGWOCP
+# Cosbench On OCP
 Automates COSbench and Ceph RGW usage on Openshift
 
 Scripts to automate running COSbench and Ceph RGW on OCP 4.1
@@ -21,6 +21,21 @@ $ export KUBECONFIG=/home/user/OCP/mycluster/auth/kubeconfig
 $ oc login -u system:admin
 ```
 **Install and Run Scripts**
+This codebase requires helm v2
+- Install helm v2
+
+```
+wget https://get.helm.sh/helm-v2.17.0-linux-amd64.tar.gz
+gunzip helm-v2.17.0-linux-amd64.tar.gz
+tar -xvf helm-v2.17.0-linux-amd64.tar.gz
+cd linux-amd64
+chmld +x helm
+which helm
+mv /usr/local/bin/helm /usr/local/bin/helm3
+cp helm /usr/local/bin/helm
+helm version
+```
+
 ```
 $ git clone https://github.com/jharriga/RGWOCP
 $ cd RGWOCP
