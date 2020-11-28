@@ -37,12 +37,19 @@ helm version
 ```
 
 ```
-$ git clone https://github.com/jharriga/RGWOCP
-$ cd RGWOCP
+$ git clone https://github.com/ksingh7/cosbench_on_ocp.git
+$ cd cosbench_on_ocp
 $ chmod 755 *.sh
 $ ./launchCB.sh 2
 Continuing...
 Open WebBrowser  http://127.0.0.1:8080/controller/index.html
+
+oc project ccb
+oc get all
+oc expose service/ccbhelm-cosbench-controller
+oc get route
+
+visit http://ccbhelm-cosbench-controller-ccb.apps.ocp4.cp4d.com/controller/index.html
 
 $ ./launchRGW.sh
 AccessKey = W0D1KKQ0RAZKA11V73ZJ : SecretKey = qydp2aWjlLQBmkh7XXioe7ne3MA6NPlvRo9Ihw1F
