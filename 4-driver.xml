@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<workload name="cosbench-round-1-4-rgw-128M-8-thread-32-buckets" description="cosbench-round-1-4-rgw-128M-8-thread-32-buckets" config="">
+<workload name="cosbench-round-1-4-Drivers-128M-32-buckets" description="cosbench-round-1-4-Drivers-128M-32-buckets" config="">
   <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
 
   <workflow>
 	
     <workstage name="init">
-      <work type="init" workers="8" config="cprefix=cosbenchround1;containers=r(1,32)"></work>
+      <work type="init" workers="32" config="cprefix=cosbenchround1;containers=r(1,32)"></work>
     </workstage>
 	
-    <workstage name="128M 4RGW 8Thread 32Bucket PUT">
+    <workstage name="128M 4Drivers 32Bucket PUT">
 
-      <work type="prepare" workers="8" division="container" config="cprefix=cosbenchround1;containers=r(1,8);oprefix=cosbenchround1;objects=r(1,1000);sizes=c(128)MB" id="cosbenchround1">
+      <work type="prepare" workers="4" division="container" config="cprefix=cosbenchround1;containers=r(1,8);oprefix=cosbenchround1;objects=r(1,20);sizes=c(128)MB" id="cosbenchround1">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
       </work>
 
-      <work type="prepare" workers="8" division="container" config="cprefix=cosbenchround1;containers=r(9,16);oprefix=cosbenchround1;objects=r(1,1000);sizes=c(128)MB" id="cosbenchround1">
+      <work type="prepare" workers="4" division="container" config="cprefix=cosbenchround1;containers=r(9,16);oprefix=cosbenchround1;objects=r(1,20);sizes=c(128)MB" id="cosbenchround1">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
       </work>
 
-       <work type="prepare" workers="8" division="container" config="cprefix=cosbenchround1;containers=r(17,24);oprefix=cosbenchround1;objects=r(1,1000);sizes=c(128)MB" id="cosbenchround1">
+       <work type="prepare" workers="4" division="container" config="cprefix=cosbenchround1;containers=r(17,24);oprefix=cosbenchround1;objects=r(1,20);sizes=c(128)MB" id="cosbenchround1">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
       </work>
 
-       <work type="prepare" workers="8" division="container" config="cprefix=cosbenchround1;containers=r(25,32);oprefix=cosbenchround1;objects=r(1,1000);sizes=c(128)MB" id="cosbenchround1">
+       <work type="prepare" workers="4" division="container" config="cprefix=cosbenchround1;containers=r(25,32);oprefix=cosbenchround1;objects=r(1,20);sizes=c(128)MB" id="cosbenchround1">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
       </work>
 
@@ -33,31 +33,72 @@
       <work type="delay" workers="1" />
     </workstage>
 
-    <workstage name="128M 4RGW 8Thread 32Bucket GET">
+    <workstage name="128M 4Drivers 32Bucket GET">
 
-      <work name="GET" type="normal" workers="8" runtime="1800" division="object">
+      <work name="GET" type="normal" workers="4" runtime="300" division="container">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
-        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(1,8);oprefix=cosbenchround1;objects=s(1,750);hashCheck=true" id="cosbenchround1" />
+        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(1,8);oprefix=cosbenchround1;objects=s(1,20);hashCheck=true" id="cosbenchround1" />
       </work>
      
-      <work name="GET" type="normal" workers="8" runtime="1800" division="object">
+      <work name="GET" type="normal" workers="4" runtime="300" division="container">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
-        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(9,16);oprefix=cosbenchround1;objects=s(1,750);hashCheck=true" id="cosbenchround1" />
+        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(9,16);oprefix=cosbenchround1;objects=s(1,20);hashCheck=true" id="cosbenchround1" />
       </work>
       
-      <work name="GET" type="normal" workers="8" runtime="1800" division="object">
+      <work name="GET" type="normal" workers="4" runtime="300" division="container">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
-        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(17,24);oprefix=cosbenchround1;objects=s(1,750);hashCheck=true" id="cosbenchround1" />
+        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(17,24);oprefix=cosbenchround1;objects=s(1,20);hashCheck=true" id="cosbenchround1" />
       </work>
       
-      <work name="GET" type="normal" workers="8" runtime="1800" division="object">
+      <work name="GET" type="normal" workers="4" runtime="300" division="container">
         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" />
-        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(25,32);oprefix=cosbenchround1;objects=s(1,750);hashCheck=true" id="cosbenchround1" />
+        <operation type="read" ratio="100" config="cprefix=cosbenchround1;containers=r(25,32);oprefix=cosbenchround1;objects=s(1,20);hashCheck=true" id="cosbenchround1" />
       </work>
-    </workstage>      
+    </workstage>     
+
+    <workstage name="cleanup">
+
+         <work type="cleanup" workers="4" config="cprefix=cosbenchround1;containers=r(1,8);oprefix=cosbenchround1;objects=r(1,20);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+
+         <work type="cleanup" workers="4" config="cprefix=cosbenchround1;containers=r(9,16);oprefix=cosbenchround1;objects=r(1,20);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+         <work type="cleanup" workers="4" config="cprefix=cosbenchround1;containers=r(17,24);oprefix=cosbenchround1;objects=r(1,20);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+
+         <work type="cleanup" workers="4" config="cprefix=cosbenchround1;containers=r(25,32);oprefix=cosbenchround1;objects=r(1,20);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+    </workstage>
+
+    <workstage name="dispose">
+
+         <work type="dispose" workers="4" config="cprefix=cosbenchround1;containers=r(1,8);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+         <work type="dispose" workers="4" config="cprefix=cosbenchround1;containers=r(9,16);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+         <work type="dispose" workers="4" config="cprefix=cosbenchround1;containers=r(17,24);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+         <work type="dispose" workers="4" config="cprefix=cosbenchround1;containers=r(25,32);" id="cosbenchround1">
+         <storage type="s3" config="accesskey=S3user1;secretkey=S3user1key;timeout=999999;path_style_access=true;endpoint=http://ocs-s3-service.openshift-storage.svc.cluster.local" /> 
+          </work>
+
+    </workstage>
 
 
   </workflow>
 
 </workload>
-
