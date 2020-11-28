@@ -109,6 +109,10 @@ echo "Continuing..."
 export POD_NAME=$(oc get pods --namespace ccb -l "app=cosbench,component=controller,release=ccbhelm" -o jsonpath="{.items[0].metadata.name}")
 oc port-forward $POD_NAME 8080:19088 > /dev/null 2>&1 &  # run in backgrd
 
+oc expose service/ccbhelm-cosbench-controller
+oc get route ccbhelm-cosbench-controller
+
+
 echo "Issued port-forward command, open WebBrowser  http://127.0.0.1:8080/controller/index.html"    
 #  Driver 1: http://ccbhelm-cosbench-driver-0.ccbhelm-cosbench-driver:18088/driver
 #  Driver 2: http://ccbhelm-cosbench-driver-1.ccbhelm-cosbench-driver:18088/driver
