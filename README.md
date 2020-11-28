@@ -58,9 +58,13 @@ rook-ceph-rgw service listening at = 172.30.92.76:8080
 **TEARDOWN**
 ```
 helm list
-$ helm delete --purge ccbhelm
-$ oc delete project ccb
-$ oc delete project rook-ceph
-$ openshift-install destroy cluster --dir mycluster/
+helm delete --purge ccbhelm
+oc delete route.route.openshift.io/ccbhelm-cosbench-controller -n ccb
+oc delete project ccb
+oc delete sa tiller -n kube-system
+oc delete clusterrolebinding tiller -n kube-system
+oc delete deployment.apps/tiller-deploy -n kube-system
+oc delete service/tiller-deploy -n kube-system
+
 ```
   
