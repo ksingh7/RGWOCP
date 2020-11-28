@@ -57,6 +57,7 @@ rook-ceph-rgw service listening at = 172.30.92.76:8080
 ```
 **TEARDOWN**
 ```
+helm list
 $ helm delete --purge ccbhelm
 $ oc delete project ccb
 $ oc delete project rook-ceph
