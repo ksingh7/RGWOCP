@@ -80,6 +80,7 @@ fi
 echo "Configuring and starting tiller..."
 oc create serviceaccount tiller -n kube-system 2>/dev/null || error_exit "FAIL serviceaccount" $LINENO
 oc create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller 2>/dev/null || error_exit "FAIL clusterrolebinding" $LINENO
+helm repo add stable https://charts.helm.sh/stable
 helm init --service-account tiller || error_exit "FAIL helm init" $LINENO
 echo "sleeping ${pause}s for previous cmd to complete..."
 sleep $pause

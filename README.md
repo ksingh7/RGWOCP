@@ -40,7 +40,7 @@ helm version
 $ git clone https://github.com/ksingh7/cosbench_on_ocp.git
 $ cd cosbench_on_ocp
 $ chmod 755 *.sh
-$ ./launchCB.sh 2
+$ ./launchCB.sh 2 <Number of cosbench drivers>
 Continuing...
 Open WebBrowser  http://127.0.0.1:8080/controller/index.html
 
